@@ -1,6 +1,7 @@
 /*      DevLogs
     230821 v0.3.1   add key "hjklwasdmMigG" move page
     230823 v0.3.2   fix minor bug in content.js 
+    230824 v0.4.0   
 
     TODO:
     1. active button
