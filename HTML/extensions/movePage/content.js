@@ -5,10 +5,12 @@
     230824 v0.4.0   optimize movePageByKey UI
     230824 v0.4.1   rename movePageByKey to movePage
     230824 v0.4.2   change favicon
+    230824 v0.4.3   add background script
 
     TODO:
     1. active button
     2. continuous mode
+    3. Github link
 */
 let scrollTime = 250;
 let scrollDist = 200;
