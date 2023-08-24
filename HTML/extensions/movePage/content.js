@@ -1,7 +1,10 @@
 /*      DevLogs
-    230821 v0.3.1   add key "hjklwasdmMigG" move page
+    230821 v0.3.0   add key "hjklwasdmMigG" move page
+    230822 v0.3.1   remove unnecessary code in content.js
     230823 v0.3.2   fix minor bug in content.js 
-    230824 v0.4.0   
+    230824 v0.4.0   optimize movePageByKey UI
+    230824 v0.4.1   rename movePageByKey to movePage
+    230824 v0.4.2   change favicon
 
     TODO:
     1. active button
