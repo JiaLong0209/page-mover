@@ -19,5 +19,8 @@
         "128": "icon1.png"
       },
       "default_popup": "popup.html"
-    }
+    },
+    "background" : {  
+        "service_worker" : "event.js"
+    }  
   }
