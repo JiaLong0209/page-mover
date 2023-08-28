@@ -6,7 +6,8 @@
     230824 v0.4.1   rename movePageByKey to movePage
     230824 v0.4.2   change favicon
     230824 v0.4.3   add background script
-
+    230828 v0.4.4   add github link
+    
     TODO:
     1. active button
     2. continuous mode
