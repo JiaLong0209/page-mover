@@ -7,6 +7,7 @@
     230824 v0.4.2   change favicon
     230824 v0.4.3   add background script
     230828 v0.4.4   add github link
+    230828 v0.5.0   change open link method (create tab)
     
     TODO:
     1. active button
