@@ -8,7 +8,8 @@
     230824 v0.4.3   add background script
     230828 v0.4.4   add github link
     230828 v0.5.0   change open link method (create tab)
-    
+    230828 v0.5.1   optimize the github link UI
+
     TODO:
     1. active button
     2. continuous mode
