@@ -9,6 +9,7 @@
     230828 v0.4.4   add github link
     230828 v0.5.0   change open link method (create tab)
     230828 v0.5.1   optimize the github link UI
+    230829 v0.6.0   add commands key
 
     TODO:
     1. active button
