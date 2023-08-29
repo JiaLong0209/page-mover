@@ -1,28 +1,44 @@
 {
-    "manifest_version": 3,
-  
-    "name": "Move Page",
-    "description": "This extension can move pages by hotkeys, such as pressing 'w' or 'k' to move pages up and 's' or 'j' to  move pages down.",
-    "version": "0.5.1",
-
-    "content_scripts": [
-      {
-        "matches": ["*://*/*"],
-        "js": ["content.js"]
-      }
-    ],
-
-    "action": {  
-      "default_icon": {
-        "16": "icon1.png",
-        "48": "icon1.png",
-        "128": "icon1.png"
-      },
-      "default_popup": "popup.html"
+  "manifest_version": 3,
+  "name": "Move Page",
+  "description": "This extension can move pages by hotkeys, such as pressing 'w' or 'k' to move pages up and 's' or 'j' to  move pages down.",
+  "version": "0.6.0",
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*/*"
+      ],
+      "js": [
+        "content.js"
+      ]
+    }
+  ],
+  "action": {
+    "default_icon": {
+      "16": "icon1.png",
+      "48": "icon1.png",
+      "128": "icon1.png"
     },
-    "background" : {  
-        "service_worker" : "event.js"
-    }  ,
-
-    "permissions" : ["tabs"]
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "service_worker": "event.js"
+  },
+  "permissions": [
+    "tabs"
+  ],
+  "commands": {
+    "toggle_move_page": {
+      "suggested_key": {
+        "default": "Alt+Q"
+      },
+      "description": "Toggle this extension"
+    },
+    "switch_icon": {
+      "suggested_key": {
+        "default": "Alt+T"
+      },
+      "description": "switch this action icon"
+    }
   }
+}
