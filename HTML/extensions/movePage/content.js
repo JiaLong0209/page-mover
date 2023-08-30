@@ -10,8 +10,9 @@
     230828 v0.5.0   change open link method (create tab)
     230828 v0.5.1   optimize the github link UI
     230829 v0.6.0   add commands key
-    230839 v0.7.0   add active move page to context menus
-
+    230830 v0.7.0   add active move page to context menus
+    230831 v0.7.1   remove necessary code in content.js
+    
     TODO:
     1. active button
     2. continuous mode
@@ -22,7 +23,7 @@ let scrollDist = 200;
 let interval = 1000/120; // 120 FPS
 let minSpeed = 0, maxSpeed = 2;
 let power = 1.2;
-
+let scrollMode = 1;
 
 function scrollByDistance(x , y, duration){
     let time = 0;
@@ -38,18 +39,7 @@ function scrollByDistance(x , y, duration){
     }, interval);
     
 }
-
-function scrollTop(e){
-    scrollByDistance(0, -window.scrollY, scrollTime * 3);
-}
-
-function scrollBottom(e){
-    scrollByDistance(0, document.body.scrollHeight - window.scrollY - window.innerHeight + 150, scrollTime * 3);
-}
-
-function scrollMiddle(e){
-    scrollByDistance(0, (document.body.scrollHeight / 2 - window.scrollY - window.screen.height/2), scrollTime * 2);
-}
+ 
  
 function keyListener(e){
     let tag = e.target.tagName.toLowerCase();
@@ -90,15 +80,15 @@ function keyListener(e){
             break;
 
         case 'g':   // scroll to top
-            scrollTop(e);
+            scrollByDistance(0, -window.scrollY, scrollTime * 3);
             break;
 
         case 'G':   // scroll to bottom
-            scrollBottom(e);
+            scrollByDistance(0, document.body.scrollHeight - window.scrollY - window.innerHeight + 150, scrollTime * 3);
             break;
         
         case 'M':   // scroll to middle
-            scrollMiddle(e);
+            scrollByDistance(0, (document.body.scrollHeight / 2 - window.scrollY - window.screen.height/2), scrollTime * 2);
             break;
 
         case ' ':
