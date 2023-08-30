@@ -12,18 +12,20 @@
     230829 v0.6.0   add commands key
     230830 v0.7.0   add active move page to context menus
     230831 v0.7.1   remove necessary code in content.js
-    
+    230831 v0.8.0   add continuous scroll mode 
+
     TODO:
     1. active button
-    2. continuous mode
-    3. Github link
+    2. continuous mode v 230831
+    3. Github link v 230828
 */
 let scrollTime = 250;
-let scrollDist = 200;
+let scrollDist = 150;
 let interval = 1000/120; // 120 FPS
 let minSpeed = 0, maxSpeed = 2;
 let power = 1.2;
 let scrollMode = 1;
+let pressedKeys = {}
 
 function scrollByDistance(x , y, duration){
     let time = 0;
@@ -37,46 +39,42 @@ function scrollByDistance(x , y, duration){
         window.scrollBy(scrollx, scrolly );
         time++;
     }, interval);
-    
+
+
 }
- 
- 
-function keyListener(e){
-    let tag = e.target.tagName.toLowerCase();
-    // console.log(tag)
-    if( tag == 'input' || tag == 'textarea' || tag == 'div') return;
-    switch (e.key){
-        
+
+function scrollByKey(key, distance){
+    switch (key){
         case 'j': case 's':  // scroll page to bottom by distance
-            scrollByDistance(0, scrollDist, scrollTime);
+            scrollByDistance(0, distance, scrollTime);
             break;
 
         case 'J':   // scroll page to bottom by distance, but double the scroll distance
-            scrollByDistance(0, scrollDist*2, scrollTime);
+            scrollByDistance(0, distance*2, scrollTime);
             break;
 
         case 'k': case 'w':  // scroll page to top by distance
-            scrollByDistance(0, -scrollDist, scrollTime);
+            scrollByDistance(0, -distance, scrollTime);
             break;
 
         case 'K':   // scroll page to top by distance, but double the scroll distance
-            scrollByDistance(0, -scrollDist*2, scrollTime);
+            scrollByDistance(0, -distance*2, scrollTime);
             break;
 
         case 'i':
-            scrollByDistance(0, -scrollDist/4, scrollTime);
+            scrollByDistance(0, -distance/4, scrollTime);
             break;
 
         case 'm':
-            scrollByDistance(0, scrollDist/4, scrollTime);
+            scrollByDistance(0, distance/4, scrollTime);
             break;
 
         case 'h': case 'a':  // scroll page to left by distance
-            scrollByDistance(-scrollDist, 0, scrollTime);
+            scrollByDistance(-distance, 0, scrollTime);
             break;
 
         case 'l': case 'd':  // scroll page to right by distance
-            scrollByDistance(scrollDist, 0, scrollTime);
+            scrollByDistance(distance, 0, scrollTime);
             break;
 
         case 'g':   // scroll to top
@@ -100,9 +98,22 @@ function keyListener(e){
             break;
     } 
 }
+ 
+ 
+function keyListener(e){
+    let tag = e.target.tagName.toLowerCase();
+    if( tag == 'input' || tag == 'textarea' || tag == 'div' || scrollMode != 0) return;
+    scrollByKey(e.key, scrollDist);
+}
 
 console.log("hello Movepage");
-window.addEventListener('keydown', (e) => {keyListener(e)});
+window.addEventListener('keydown', (e) => {keyListener(e), pressedKeys[e.key] = true});
+window.addEventListener('keyup', (e) => { pressedKeys[e.key] = false})
 
-
-
+setInterval(() => {
+    if(scrollMode == 1){
+        for (let [key, value] of Object.entries(pressedKeys)){
+            if(value) scrollByKey(key, scrollDist / 3);
+        }
+    }
+}, 50);
