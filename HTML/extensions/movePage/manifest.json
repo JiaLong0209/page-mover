@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Move Page",
   "description": "This extension can move pages by hotkeys, such as pressing 'w' or 'k' to move pages up and 's' or 'j' to  move pages down.",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "content_scripts": [
     {
       "matches": [
@@ -25,8 +25,11 @@
     "service_worker": "event.js"
   },
   "permissions": [
-    "tabs"
+    "tabs", "contextMenus"
   ],
+  "icons":{
+    "16": "icon.png"
+  },
   "commands": {
     "toggle_move_page": {
       "suggested_key": {
