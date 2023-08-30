@@ -18,6 +18,10 @@
     1. active button
     2. continuous mode v 230831
     3. Github link v 230828
+
+    Note:
+    git commit --amend -m "commit message" // can amend last commit message
+    git rebase -i {commit ID} // can change the commit information from {commit ID} to current commit 
 */
 let scrollTime = 250;
 let scrollDist = 150;
