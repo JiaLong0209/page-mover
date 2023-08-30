@@ -14,12 +14,13 @@
     230831 v0.7.1   remove necessary code in content.js
     230831 v0.8.0   add continuous scroll mode 
 
-    TODO:
-    1. active button
-    2. continuous mode v 230831
-    3. Github link v 230828
+        TODO:
+    Github link                  v 230828
+    continuous mode              v 230831
+    *active button
+    *toggle scroll mode 
 
-    Note:
+        Note:
     git commit --amend -m "commit message" // can amend last commit message
     git rebase -i {commit ID} // can change the commit information from {commit ID} to current commit 
 */
