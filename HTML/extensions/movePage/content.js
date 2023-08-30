@@ -10,6 +10,7 @@
     230828 v0.5.0   change open link method (create tab)
     230828 v0.5.1   optimize the github link UI
     230829 v0.6.0   add commands key
+    230839 v0.7.0   add active move page to context menus
 
     TODO:
     1. active button
