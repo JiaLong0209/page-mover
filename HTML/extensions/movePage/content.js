@@ -13,6 +13,7 @@
     230830 v0.7.0   add active move page to context menus
     230831 v0.7.1   remove necessary code in content.js
     230831 v0.8.0   add continuous scroll mode 
+    230901 v0.8.1   fix move page active in input area bug
 
         TODO:
     Github link                  v 230828
@@ -24,7 +25,7 @@
     git commit --amend -m "commit message" // can amend last commit message
     git rebase -i {commit ID} // can change the commit information from {commit ID} to current commit 
 */
-let scrollTime = 250;
+let scrollTime = 200;
 let scrollDist = 150;
 let interval = 1000/120; // 120 FPS
 let minSpeed = 0, maxSpeed = 2;
@@ -48,50 +49,50 @@ function scrollByDistance(x , y, duration){
 
 }
 
-function scrollByKey(key, distance){
+function scrollByKey(key, distance, duration){
     switch (key){
         case 'j': case 's':  // scroll page to bottom by distance
-            scrollByDistance(0, distance, scrollTime);
+            scrollByDistance(0, distance, duration);
             break;
 
         case 'J':   // scroll page to bottom by distance, but double the scroll distance
-            scrollByDistance(0, distance*2, scrollTime);
+            scrollByDistance(0, distance*2, duration);
             break;
 
         case 'k': case 'w':  // scroll page to top by distance
-            scrollByDistance(0, -distance, scrollTime);
+            scrollByDistance(0, -distance, duration);
             break;
 
         case 'K':   // scroll page to top by distance, but double the scroll distance
-            scrollByDistance(0, -distance*2, scrollTime);
+            scrollByDistance(0, -distance*2, duration);
             break;
 
         case 'i':
-            scrollByDistance(0, -distance/4, scrollTime);
+            scrollByDistance(0, -distance/4, duration);
             break;
 
         case 'm':
-            scrollByDistance(0, distance/4, scrollTime);
+            scrollByDistance(0, distance/4, duration);
             break;
 
         case 'h': case 'a':  // scroll page to left by distance
-            scrollByDistance(-distance, 0, scrollTime);
+            scrollByDistance(-distance, 0, duration);
             break;
 
         case 'l': case 'd':  // scroll page to right by distance
-            scrollByDistance(distance, 0, scrollTime);
+            scrollByDistance(distance, 0, duration);
             break;
 
         case 'g':   // scroll to top
-            scrollByDistance(0, -window.scrollY, scrollTime * 3);
+            scrollByDistance(0, -window.scrollY, duration * 3);
             break;
 
         case 'G':   // scroll to bottom
-            scrollByDistance(0, document.body.scrollHeight - window.scrollY - window.innerHeight + 150, scrollTime * 3);
+            scrollByDistance(0, document.body.scrollHeight - window.scrollY - window.innerHeight + 150, duration * 3);
             break;
         
         case 'M':   // scroll to middle
-            scrollByDistance(0, (document.body.scrollHeight / 2 - window.scrollY - window.screen.height/2), scrollTime * 2);
+            scrollByDistance(0, (document.body.scrollHeight / 2 - window.scrollY - window.screen.height/2), duration * 2);
             break;
 
         case ' ':
@@ -104,11 +105,16 @@ function scrollByKey(key, distance){
     } 
 }
  
- 
+function isInputArea(tag){
+    tag = tag.toLowerCase();
+    return tag == 'input' || tag == 'textarea' || tag == 'div';
+
+}
+
 function keyListener(e){
     let tag = e.target.tagName.toLowerCase();
-    if( tag == 'input' || tag == 'textarea' || tag == 'div' || scrollMode != 0) return;
-    scrollByKey(e.key, scrollDist);
+    if(isInputArea(tag) || scrollMode != 0) return;
+    scrollByKey(e.key, scrollDist, scrollTime);
 }
 
 console.log("hello Movepage");
@@ -116,9 +122,9 @@ window.addEventListener('keydown', (e) => {keyListener(e), pressedKeys[e.key] = 
 window.addEventListener('keyup', (e) => { pressedKeys[e.key] = false})
 
 setInterval(() => {
-    if(scrollMode == 1){
+    if(!isInputArea(document.activeElement.tagName) && scrollMode == 1){
         for (let [key, value] of Object.entries(pressedKeys)){
-            if(value) scrollByKey(key, scrollDist / 3);
+            if(value) scrollByKey(key, scrollDist / 5, scrollTime / 2);
         }
     }
-}, 50);
+}, 33);
