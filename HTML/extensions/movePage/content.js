@@ -15,6 +15,7 @@
     230831 v0.8.0   add continuous scroll mode 
     230901 v0.8.1   fix move page active in input area 
     230901 v0.8.2   fix up/down moving distance difference 
+    230901 v0.8.3   change argument 'e.key' to 'e' in scrollByKey function
 
         TODO:
     Github link                  v 230828
@@ -51,8 +52,8 @@ function scrollByDistance(x, y, duration) {
 
 }
 
-function scrollByKey(key, distance, duration) {
-    switch (key) {
+function scrollByKey(e, distance, duration) {
+    switch (e.key) {
         case 'j': case 's':  // scroll page to bottom by distance
             scrollByDistance(0, distance + xOffset, duration);
             break;
@@ -116,7 +117,7 @@ function isInputArea(tag) {
 function keyListener(e) {
     let tag = e.target.tagName.toLowerCase();
     if (isInputArea(tag) || scrollMode != 0) return;
-    scrollByKey(e.key, scrollDist, scrollTime);
+    scrollByKey(e, scrollDist, scrollTime);
 }
 
 console.log("hello Movepage");
