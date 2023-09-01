@@ -16,6 +16,7 @@
     230901 v0.8.1   fix move page active in input area 
     230901 v0.8.2   fix up/down moving distance difference 
     230901 v0.8.3   change argument 'e.key' to 'e' in scrollByKey function
+    230901 v0.8.4   fix move page not work in continuous scroll mode
 
         TODO:
     Github link                  v 230828
@@ -127,7 +128,7 @@ window.addEventListener('keyup', (e) => { pressedKeys[e.key] = false })
 setInterval(() => {
     if (!isInputArea(document.activeElement.tagName) && scrollMode == 1) {
         for (let [key, value] of Object.entries(pressedKeys)) {
-            if (value) scrollByKey(key, scrollDist / 5, scrollTime / 2);
+            if (value) scrollByKey(new KeyboardEvent('keydown', {key: key}), scrollDist / 5, scrollTime / 2);
         }
     }
 }, 33);
