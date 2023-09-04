@@ -1,8 +1,12 @@
-let active = true
+let active = true;
 
 function toggleMovePageFunction(status) {
   active = status;
-  console.log(`${active ? 'active' : 'non-active'}`)
+  console.log(`${active ? 'active' : 'non-active'}`);
+}
+
+function OpenNewTab() {
+  chrome.tabs.create({ 'url': 'https://www.google.com' });
 }
 
 function genericOnClick(info, tab) {
@@ -18,9 +22,10 @@ function genericOnClick(info, tab) {
     "現在hover的連結:" + (info.linkUrl ? info.linkUrl : "") + "\n" +
     "現在hover的frame是:" + (info.frameUrl ? info.frameUrl : "") + "\n"
   );
-  if(id == "toggleMovePage"){
-    toggleMovePageFunction(info.checked)
-    
+  if (id == "toggleMovePage") {
+    toggleMovePageFunction(info.checked);
+  }else if ( id == "newTab"){
+    OpenNewTab();
   }
 
 }
@@ -39,15 +44,30 @@ chrome.runtime.onInstalled.addListener(async () => {
     "type": "checkbox",
     "contexts": ['all'],
     "parentId": parent,
-    "checked": true 
+    "checked": true,
+  });
+
+
+  let newTab = chrome.contextMenus.create({
+    "id": "newTab",
+    "title": "Open a new tab",
+    "type": "normal",
+    "contexts": ['all'],
+    "parentId": parent,
   });
 
   chrome.commands.onCommand.addListener(function (command) {
     console.log('Command:', command);
-    command == 'toggle_move_page' ? toggleMovePageFunction(!active) : null;
-    chrome.contextMenus.update("toggleMovePage", {  // update the checkBox
-      "checked": active
-    });
+
+    if (command == 'toggle_move_page') {
+      toggleMovePageFunction(!active);
+      chrome.contextMenus.update("toggleMovePage", {  // update the checkBox
+        "checked": active
+      });
+
+    } else if (command == 'new_tab') {
+      OpenNewTab();
+    }
   });
 
   chrome.contextMenus.onClicked.addListener(genericOnClick);

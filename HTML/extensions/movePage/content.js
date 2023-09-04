@@ -17,6 +17,7 @@
     230901 v0.8.2   fix up/down moving distance difference 
     230901 v0.8.3   change argument 'e.key' to 'e' in scrollByKey function
     230901 v0.8.4   fix move page not work in continuous scroll mode
+    230904 v0.9.0   add open new tab shortcut "Alt+N" and a context menu button
 
         TODO:
     Github link                  v 230828
