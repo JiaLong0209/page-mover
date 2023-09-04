@@ -1,50 +1,16 @@
-/*      DevLogs
-    230821 v0.3.0   Add key "hjklwasdmMigG" move page
-    230822 v0.3.1   Remove unnecessary code in content.js
-    230823 v0.3.2   Fix minor bug in content.js 
-    230824 v0.4.0   Optimize movePageByKey UI
-    230824 v0.4.1   Rename movePageByKey to movePage
-    230824 v0.4.2   Change favicon
-    230824 v0.4.3   Add background script
-    230828 v0.4.4   Add github link
-    230828 v0.5.0   Change open link method (create tab)
-    230828 v0.5.1   Optimize the github link UI
-    230829 v0.6.0   Add commands key
-    230830 v0.7.0   Add active move page to context menus
-    230831 v0.7.1   Remove necessary code in content.js
-    230831 v0.8.0   Add continuous scroll mode 
-    230901 v0.8.1   Fix move page active in input area 
-    230901 v0.8.2   Fix up/down moving distance difference 
-    230901 v0.8.3   Change argument 'e.key' to 'e' in scrollByKey function
-    230901 v0.8.4   Fix move page not work in continuous scroll mode
-    230904 v0.9.0   Add open new tab shortcut "Alt+N" and a context menu button
-    230904 v0.9.1   Add 'nonlinear' and 'linear' scroll mode
-    230904 v0.9.2   Rename 'times', 'count' , 'midCount' to 'step', 'totalSteps', 'midSteps' in content.js
-    230904 v0.9.3   Adjust scrolling related parameters and optimize the scrolling distance offset
 
-        TODO:
-    Github link                  v 230828
-    continuous mode              v 230831
-    
-    *active button
-    *toggle scroll mode 
-    *bug in continuous mode when pressing Shift key
-
-        Note:
-    git commit --amend -m "commit message" // can amend last commit message
-    git rebase -i {commit ID} // can change the commit information from {commit ID} to current commit 
-*/
 let scrollTime = 200;
 let scrollDist = 150;
 let interval = 1000 / 120; // 120 FPS
 let minSpeed = 0, maxSpeed = 2;
 let power = 1.2;
-let activeMode = 0; // 0 = non-continuous, 1 = continuous
-let scrollMode = 'nonlinear_power' // nonlinear, nonlinear_power or linear
+let activeMode = 1; // 0 = non-continuous, 1 = continuous
+let scrollMode = 'linear' // nonlinear, nonlinear_power or linear
 let pressedKeys = {}
 let contDistOffset = 6;
-let contDurationOffset = 3;
-let xOffset = 10 * (contDistOffset / 3) / contDurationOffset;   // fix the moving distance difference when move down/up
+let contDurationOffset = 2;
+let contInterval = interval*4;
+let xOffset = 10 * (contDistOffset / 3) / contDurationOffset * contInterval / 33;   // fix the moving distance difference when move down/up
 
 function scrollByDistance(x, y, duration) {
 
@@ -155,4 +121,43 @@ setInterval(() => {
             if (value) scrollByKey(new KeyboardEvent('keydown', { key: key }), scrollDist / contDistOffset, scrollTime / contDurationOffset);
         }
     }
-}, 33);
+}, contInterval);
+
+
+/*      DevLogs
+    230821 v0.3.0   Add key "hjklwasdmMigG" move page
+    230822 v0.3.1   Remove unnecessary code in content.js
+    230823 v0.3.2   Fix minor bug in content.js 
+    230824 v0.4.0   Optimize movePageByKey UI
+    230824 v0.4.1   Rename movePageByKey to movePage
+    230824 v0.4.2   Change favicon
+    230824 v0.4.3   Add background script
+    230828 v0.4.4   Add github link
+    230828 v0.5.0   Change open link method (create tab)
+    230828 v0.5.1   Optimize the github link UI
+    230829 v0.6.0   Add commands key
+    230830 v0.7.0   Add active move page to context menus
+    230831 v0.7.1   Remove necessary code in content.js
+    230831 v0.8.0   Add continuous scroll mode 
+    230901 v0.8.1   Fix move page active in input area 
+    230901 v0.8.2   Fix up/down moving distance difference 
+    230901 v0.8.3   Change argument 'e.key' to 'e' in scrollByKey function
+    230901 v0.8.4   Fix move page not work in continuous scroll mode
+    230904 v0.9.0   Add open new tab shortcut "Alt+N" and a context menu button
+    230904 v0.9.1   Add 'nonlinear' and 'linear' scroll mode
+    230904 v0.9.2   Rename 'times', 'count' , 'midCount' to 'step', 'totalSteps', 'midSteps' in content.js
+    230904 v0.9.3   Adjust scrolling related parameters and optimize the scrolling distance offset
+    230904 v0.9.4   Adjust continuous mode interval parameters and optimize scrolling smoothness
+
+        TODO:
+    Github link                  v 230828
+    continuous mode              v 230831
+    
+    *active button
+    *toggle scroll mode 
+    *bug in continuous mode when pressing Shift key
+
+        Note:
+    git commit --amend -m "commit message" // can amend last commit message
+    git rebase -i {commit ID} // can change the commit information from {commit ID} to current commit 
+*/
