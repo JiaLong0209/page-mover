@@ -18,6 +18,8 @@
     230901 v0.8.3   change argument 'e.key' to 'e' in scrollByKey function
     230901 v0.8.4   fix move page not work in continuous scroll mode
     230904 v0.9.0   add open new tab shortcut "Alt+N" and a context menu button
+    230904 v0.9.1   add 'nonlinear' and 'linear' scroll mode
+    230904 v0.9.2   rename 'times', 'count' , 'midCount' to 'step', 'totalSteps', 'midSteps' in content.js
 
         TODO:
     Github link                  v 230828
@@ -41,30 +43,30 @@ let xOffset = 10;
 
 function scrollByDistance(x, y, duration) {
 
-    let times = 0;
-    let count = Math.round(duration / interval);
-    let midCount = (count / 2);
+    let step = 0;
+    let totalSteps = Math.round(duration / interval);
+    let midSteps = (totalSteps / 2);
     let dist, scrollx, scrolly;
     let scroll = setInterval(() => {
-        if (times >= count) clearInterval(scroll);
+        if (step >= totalSteps) clearInterval(scroll);
 
         if (scrollMode == 'nonlinear_power') {
-            dist = (Math.abs((times > midCount ? (count - times) ** power : times ** power) - midCount ** power)) ** (1 / power);    // calculate the distance between current times and midCount, but it isn't linear
-            scrollx = x / count * (maxSpeed - (dist / midCount) * (maxSpeed - minSpeed)) * power;  // the current times will reach maxSpeed at midCount. Instead,
-            scrolly = y / count * (maxSpeed - (dist / midCount) * (maxSpeed - minSpeed)) * power;  // the farther dist, the closer the scrolling speed is to minSpeed.
+            dist = (Math.abs((step > midSteps ? (totalSteps - step) ** power : step ** power) - midSteps ** power)) ** (1 / power);    // calculate the distance between current step and midSteps, but it isn't linear
+            scrollx = x / totalSteps * (maxSpeed - (dist / midSteps) * (maxSpeed - minSpeed)) * power;  // the current step will reach maxSpeed at midSteps. Instead,
+            scrolly = y / totalSteps * (maxSpeed - (dist / midSteps) * (maxSpeed - minSpeed)) * power;  // the farther dist, the closer the scrolling speed is to minSpeed.
 
         } else if (scrollMode == 'nonlinear') {
-            dist = Math.abs((times > midCount ? (count - times) : times) - midCount)
-            scrollx = x / count * (maxSpeed - (dist / midCount) * (maxSpeed - minSpeed));
-            scrolly = y / count * (maxSpeed - (dist / midCount) * (maxSpeed - minSpeed));
+            dist = Math.abs((step > midSteps ? (totalSteps - step) : step) - midSteps)
+            scrollx = x / totalSteps * (maxSpeed - (dist / midSteps) * (maxSpeed - minSpeed));
+            scrolly = y / totalSteps * (maxSpeed - (dist / midSteps) * (maxSpeed - minSpeed));
 
         } else if (scrollMode == 'linear') {
-            scrollx = x / count
-            scrolly = y / count
+            scrollx = x / totalSteps
+            scrolly = y / totalSteps
 
         }
         window.scrollBy(scrollx, scrolly);
-        times++;
+        step++;
     }, interval);
 
 
