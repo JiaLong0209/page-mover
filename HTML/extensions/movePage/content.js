@@ -34,21 +34,37 @@ let scrollDist = 150;
 let interval = 1000 / 120; // 120 FPS
 let minSpeed = 0, maxSpeed = 2;
 let power = 1.2;
-let scrollMode = 1;
+let activeMode = 0; // 0 = non-continuous, 1 = continuous
+let scrollMode = 'linear' // nonlinear, nonlinear_power or linear
 let pressedKeys = {}
-let xOffset = 12.5;
+let xOffset = 10;
 
 function scrollByDistance(x, y, duration) {
-    let time = 0;
+
+    let times = 0;
     let count = Math.round(duration / interval);
     let midCount = (count / 2);
+    let dist, scrollx, scrolly;
     let scroll = setInterval(() => {
-        if (time >= count) clearInterval(scroll);
-        let dist = (Math.abs((time > midCount ? (count - time) ** power : time ** power) - midCount ** power)) ** (1 / power);    // calculate the distance, but it isn't linear
-        let scrollx = x / count * (maxSpeed - (dist / midCount) * (maxSpeed - minSpeed)) * power;   // make the scroll more smooth
-        let scrolly = y / count * (maxSpeed - (dist / midCount) * (maxSpeed - minSpeed)) * power;   // make the scroll more smooth
+        if (times >= count) clearInterval(scroll);
+
+        if (scrollMode == 'nonlinear_power') {
+            dist = (Math.abs((times > midCount ? (count - times) ** power : times ** power) - midCount ** power)) ** (1 / power);    // calculate the distance between current times and midCount, but it isn't linear
+            scrollx = x / count * (maxSpeed - (dist / midCount) * (maxSpeed - minSpeed)) * power;  // the current times will reach maxSpeed at midCount. Instead,
+            scrolly = y / count * (maxSpeed - (dist / midCount) * (maxSpeed - minSpeed)) * power;  // the farther dist, the closer the scrolling speed is to minSpeed.
+
+        } else if (scrollMode == 'nonlinear') {
+            dist = Math.abs((times > midCount ? (count - times) : times) - midCount)
+            scrollx = x / count * (maxSpeed - (dist / midCount) * (maxSpeed - minSpeed));
+            scrolly = y / count * (maxSpeed - (dist / midCount) * (maxSpeed - minSpeed));
+
+        } else if (scrollMode == 'linear') {
+            scrollx = x / count
+            scrolly = y / count
+
+        }
         window.scrollBy(scrollx, scrolly);
-        time++;
+        times++;
     }, interval);
 
 
@@ -118,7 +134,7 @@ function isInputArea(tag) {
 
 function keyListener(e) {
     let tag = e.target.tagName.toLowerCase();
-    if (isInputArea(tag) || scrollMode != 0) return;
+    if (isInputArea(tag) || activeMode != 0) return;
     scrollByKey(e, scrollDist, scrollTime);
 }
 
@@ -127,9 +143,9 @@ window.addEventListener('keydown', (e) => { keyListener(e), pressedKeys[e.key] =
 window.addEventListener('keyup', (e) => { pressedKeys[e.key] = false })
 
 setInterval(() => {
-    if (!isInputArea(document.activeElement.tagName) && scrollMode == 1) {
+    if (!isInputArea(document.activeElement.tagName) && activeMode == 1) {
         for (let [key, value] of Object.entries(pressedKeys)) {
-            if (value) scrollByKey(new KeyboardEvent('keydown', {key: key}), scrollDist / 5, scrollTime / 2);
+            if (value) scrollByKey(new KeyboardEvent('keydown', { key: key }), scrollDist / 6, scrollTime / 2);
         }
     }
 }, 33);
