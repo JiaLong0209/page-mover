@@ -1,127 +1,128 @@
+(function () {
 
-let scrollTime = 200;
-let scrollDist = 150;
-let interval = 1000 / 120; // 120 FPS
-let minSpeed = 0, maxSpeed = 2;
-let power = 1.2;
-let activeMode = 1; // 0 = non-continuous, 1 = continuous
-let scrollMode = 'linear' // nonlinear, nonlinear_power or linear
-let pressedKeys = {}
-let contDistOffset = 6;
-let contDurationOffset = 2;
-let contInterval = interval*4;
-let xOffset = 10 * (contDistOffset / 3) / contDurationOffset * contInterval / 33;   // fix the moving distance difference when move down/up
+    let scrollTime = 250;
+    let scrollDist = 150;
+    let interval = 1000 / 120; // 120 FPS
+    let minSpeed = 0, maxSpeed = 2;
+    let power = 1.2;
+    let activeMode = 1; // 0 = non-continuous, 1 = continuous
+    let scrollMode = 'linear' // nonlinear, nonlinear_power or linear
+    let pressedKeys = {}
+    let contDistOffset = 6;
+    let contDurationOffset = 2;
+    let contInterval = interval * 4;
+    let xOffset = 10 * (contDistOffset / 3) / contDurationOffset * contInterval / 33;   // fix the moving distance difference when move down/up
+    
+    function scrollByDistance(x, y, duration) {
 
-function scrollByDistance(x, y, duration) {
+        let step = 0;
+        let totalSteps = Math.round(duration / interval);
+        let midSteps = (totalSteps / 2);
+        let dist, scrollx, scrolly;
+        let scroll = setInterval(() => {
+            if (step >= totalSteps) clearInterval(scroll);
 
-    let step = 0;
-    let totalSteps = Math.round(duration / interval);
-    let midSteps = (totalSteps / 2);
-    let dist, scrollx, scrolly;
-    let scroll = setInterval(() => {
-        if (step >= totalSteps) clearInterval(scroll);
+            if (scrollMode == 'nonlinear_power') {
+                dist = (Math.abs((step > midSteps ? (totalSteps - step) ** power : step ** power) - midSteps ** power)) ** (1 / power);    // calculate the distance between current step and midSteps, but it isn't linear
+                scrollx = x / totalSteps * (maxSpeed - (dist / midSteps) * (maxSpeed - minSpeed)) * power;  // the current step will reach maxSpeed at midSteps. Instead,
+                scrolly = y / totalSteps * (maxSpeed - (dist / midSteps) * (maxSpeed - minSpeed)) * power;  // the farther dist, the closer the scrolling speed is to minSpeed.
 
-        if (scrollMode == 'nonlinear_power') {
-            dist = (Math.abs((step > midSteps ? (totalSteps - step) ** power : step ** power) - midSteps ** power)) ** (1 / power);    // calculate the distance between current step and midSteps, but it isn't linear
-            scrollx = x / totalSteps * (maxSpeed - (dist / midSteps) * (maxSpeed - minSpeed)) * power;  // the current step will reach maxSpeed at midSteps. Instead,
-            scrolly = y / totalSteps * (maxSpeed - (dist / midSteps) * (maxSpeed - minSpeed)) * power;  // the farther dist, the closer the scrolling speed is to minSpeed.
+            } else if (scrollMode == 'nonlinear') {
+                dist = Math.abs((step > midSteps ? (totalSteps - step) : step) - midSteps)
+                scrollx = x / totalSteps * (maxSpeed - (dist / midSteps) * (maxSpeed - minSpeed));
+                scrolly = y / totalSteps * (maxSpeed - (dist / midSteps) * (maxSpeed - minSpeed));
 
-        } else if (scrollMode == 'nonlinear') {
-            dist = Math.abs((step > midSteps ? (totalSteps - step) : step) - midSteps)
-            scrollx = x / totalSteps * (maxSpeed - (dist / midSteps) * (maxSpeed - minSpeed));
-            scrolly = y / totalSteps * (maxSpeed - (dist / midSteps) * (maxSpeed - minSpeed));
+            } else if (scrollMode == 'linear') {
+                scrollx = x / totalSteps
+                scrolly = y / totalSteps
 
-        } else if (scrollMode == 'linear') {
-            scrollx = x / totalSteps
-            scrolly = y / totalSteps
-
-        }
-        window.scrollBy(scrollx, scrolly);
-        step++;
-    }, interval);
+            }
+            window.scrollBy(scrollx, scrolly);
+            step++;
+        }, interval);
 
 
-}
-
-function scrollByKey(e, distance, duration) {
-    switch (e.key) {
-        case 'j': case 's':  // scroll page to bottom by distance
-            scrollByDistance(0, distance + xOffset, duration);
-            break;
-
-        case 'J':   // scroll page to bottom by distance, but double the scroll distance
-            scrollByDistance(0, distance * 2 + xOffset, duration);
-            break;
-
-        case 'k': case 'w':  // scroll page to top by distance
-            scrollByDistance(0, -distance, duration);
-            break;
-
-        case 'K':   // scroll page to top by distance, but double the scroll distance
-            scrollByDistance(0, -distance * 2, duration);
-            break;
-
-        case 'i':
-            scrollByDistance(0, -distance / 4, duration);
-            break;
-
-        case 'm':
-            scrollByDistance(0, distance / 4 + xOffset, duration);
-            break;
-
-        case 'h': case 'a':  // scroll page to left by distance
-            scrollByDistance(-distance, 0, duration);
-            break;
-
-        case 'l': case 'd':  // scroll page to right by distance
-            scrollByDistance(distance, 0, duration);
-            break;
-
-        case 'g':   // scroll to top
-            scrollByDistance(0, -window.scrollY, duration * 5);
-            break;
-
-        case 'G':   // scroll to bottom
-            scrollByDistance(0, document.body.scrollHeight - window.scrollY - window.innerHeight + 150, duration * 5);
-            break;
-
-        case 'M':   // scroll to middle
-            scrollByDistance(0, (document.body.scrollHeight / 2 - window.scrollY - window.screen.height / 2), duration * 3);
-            break;
-
-        case ' ':
-            e.preventDefault();
-            break;
-
-        default:
-            // ArrowLeft
-            break;
     }
-}
 
-function isInputArea(tag) {
-    tag = tag.toLowerCase();
-    return tag == 'input' || tag == 'textarea' || tag == 'div';
+    function scrollByKey(e, distance, duration, shiftKey) {
+        let shiftBonus = shiftKey ? 2 : 1
+        switch (e.key.toLowerCase()) {
+            case 'j': case 's':  // scroll page to bottom by distance
+                scrollByDistance(0, distance * shiftBonus + xOffset, duration)
+                break;
 
-}
+            case 'k': case 'w':  // scroll page to top by distance
+                scrollByDistance(0, -distance * shiftBonus, duration);
+                break;
 
-function keyListener(e) {
-    let tag = e.target.tagName.toLowerCase();
-    if (isInputArea(tag) || activeMode != 0) return;
-    scrollByKey(e, scrollDist, scrollTime);
-}
+            case 'h': case 'a':  // scroll page to left by distance
+                scrollByDistance(-distance * shiftBonus, 0, duration);
+                break;
 
-console.log("hello Movepage");
-window.addEventListener('keydown', (e) => { keyListener(e), pressedKeys[e.key] = true });
-window.addEventListener('keyup', (e) => { pressedKeys[e.key] = false })
+            case 'l': case 'd':  // scroll page to right by distance
+                scrollByDistance(distance * shiftBonus, 0, duration);
+                break;
 
-setInterval(() => {
-    if (!isInputArea(document.activeElement.tagName) && activeMode == 1) {
-        for (let [key, value] of Object.entries(pressedKeys)) {
-            if (value) scrollByKey(new KeyboardEvent('keydown', { key: key }), scrollDist / contDistOffset, scrollTime / contDurationOffset);
+            case 'i':
+                scrollByDistance(0, -distance * shiftBonus / 4, duration);
+                break;
+
+            case 'm':
+                shiftKey ?
+                    // scroll to middle of webpage, shiftKey
+                    scrollByDistance(0, (document.body.scrollHeight / 2 - window.scrollY - window.screen.height / 2), duration * 3) :
+                    // scroll page down with small distance
+                    scrollByDistance(0, distance * shiftBonus / 4 + xOffset, duration);
+                break;
+
+            case 'g':
+                shiftKey ?
+                    // scroll to bottom, shiftKey
+                    scrollByDistance(0, document.body.scrollHeight - window.scrollY - window.innerHeight + 150, duration * 5) :
+                    // scroll to top
+                    scrollByDistance(0, -window.scrollY, duration * 5);
+                break;
+
+            case ' ':
+                e.preventDefault();
+                break;
+
+            default:
+                // ArrowLeft
+                break;
         }
     }
-}, contInterval);
+
+    function isInputArea(tag) {
+        tag = tag.toLowerCase();
+        return tag == 'input' || tag == 'textarea' || tag == 'div';
+
+    }
+
+    function keydownListener(e) {
+        pressedKeys[e.key.toLowerCase()] = true;
+        let tag = e.target.tagName.toLowerCase();
+        if (isInputArea(tag) || activeMode != 0) return;
+        scrollByKey(e, scrollDist, scrollTime, e.shiftKey);
+    }
+
+    function keyupListener(e) {
+        pressedKeys[e.key.toLowerCase()] = false;
+    }
+
+    console.log("hello Movepage");
+    window.addEventListener('keydown', (e) => { keydownListener(e) });
+    window.addEventListener('keyup', (e) => { keyupListener(e) })
+
+    setInterval(() => {
+        if (!isInputArea(document.activeElement.tagName) && activeMode == 1) {
+            for (let [key, value] of Object.entries(pressedKeys)) {
+                if (value) scrollByKey(new KeyboardEvent('keydown', { key: key }), scrollDist / contDistOffset, scrollTime / contDurationOffset, pressedKeys['shift']);
+            }
+        }
+    }, contInterval);
+
+})()
 
 
 /*      DevLogs
@@ -148,14 +149,16 @@ setInterval(() => {
     230904 v0.9.2   Rename 'times', 'count' , 'midCount' to 'step', 'totalSteps', 'midSteps' in content.js
     230904 v0.9.3   Adjust scrolling related parameters and optimize the scrolling distance offset
     230904 v0.9.4   Adjust continuous mode interval parameters and optimize scrolling smoothness
+    230905 v0.9.5   Fix bugs when pressing Shift in continuous mode and rewrite scrollByKey function in content.js
 
         TODO:
     Github link                  v 230828
     continuous mode              v 230831
+    bug in continuous mode when pressing Shift key v 230905
     
     *active button
     *toggle scroll mode 
-    *bug in continuous mode when pressing Shift key
+    *change greeting text style in console 
 
         Note:
     git commit --amend -m "commit message" // can amend last commit message
