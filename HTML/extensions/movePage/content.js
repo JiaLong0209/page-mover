@@ -150,6 +150,7 @@
     230904 v0.9.3   Adjust scrolling related parameters and optimize the scrolling distance offset
     230904 v0.9.4   Adjust continuous mode interval parameters and optimize scrolling smoothness
     230905 v0.9.5   Fix bugs when pressing Shift in continuous mode and rewrite scrollByKey function in content.js
+    230905 v0.9.6   Update popup.html 
 
         TODO:
     Github link                  v 230828
