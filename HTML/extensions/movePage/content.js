@@ -169,6 +169,7 @@
 230913 v0.9.7 Add active variable in content.js
 230914 v0.9.8 Fix click 'active page mover' not working, and rename variables
 230914 v0.9.9 Encapsulate extension status related variables into the 'Status' variable
+230914 v0.9.9 Update extension version numbers in manifest.json
 
         TODO:
     Github link                  v 230828
