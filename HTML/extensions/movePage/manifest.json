@@ -35,19 +35,19 @@
       "suggested_key": {
         "default": "Alt+Q"
       },
-      "description": "Toggle this extension"
+      "description": "Active Page Mover"
     },
     "newTabCommand": {
       "suggested_key": {
         "default": "Alt+N"
       },
-      "description": "Create new tab"
+      "description": "Create a new tab"
     },
     "switch_icon": {
       "suggested_key": {
         "default": "Alt+T"
       },
-      "description": "switch this action icon"
+      "description": "Switch this action icon"
     }
   }
 }

@@ -1,9 +1,14 @@
-let active = true;
+let Status = {
+  active: true,
+  activeMode: 1,
+  scrollMode: 'linear',
+}
 
-function toggleMovePageFunction(status) {
-  active = status;
+
+function toggleMovePageFunction(isActive) {
+  Status.active = isActive;
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-    chrome.tabs.sendMessage(tabs[0].id, { isActive: active }, function (response) {
+    chrome.tabs.sendMessage(tabs[0].id, Status, (response) => {
       console.log(response);
     });
   });
@@ -64,9 +69,9 @@ chrome.runtime.onInstalled.addListener(async () => {
     console.log('Command:', command);
 
     if (command == 'activePageMoverCommand') {
-      toggleMovePageFunction(!active);
+      toggleMovePageFunction(!Status.active);
       chrome.contextMenus.update("activePageMover", {  // update the checkBox
-        "checked": active
+        "checked": Status.active
       });
 
     } else if (command == 'newTabCommand') {
