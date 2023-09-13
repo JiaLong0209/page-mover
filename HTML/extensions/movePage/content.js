@@ -125,11 +125,11 @@
     }, contInterval);
     
     
-    chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {  
-        console.log(message);  
+    chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => {  
+        pressedKeys = {};
+        active = message.isActive;
         console.log(sender);  
-        sendResponse({ content: "來自內容腳本的回覆" });  
-        active = message;
+        sendResponse({ isActive: active });
     });
     
 })()
@@ -162,6 +162,7 @@
     230905 v0.9.5   Fix bugs when pressing Shift in continuous mode and rewrite scrollByKey function in content.js
     230905 v0.9.6   Update popup.html
     230913 v0.9.7   Add active variable in content.js
+    230914 v0.9.8   Fix click 'active page mover' not working, and rename variables
 
         TODO:
     Github link                  v 230828
