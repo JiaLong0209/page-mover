@@ -2,6 +2,9 @@ let active = true;
 
 function toggleMovePageFunction(status) {
   active = status;
+  chrome.runtime.sendMessage({ content: active }, function(response) {  
+    console.log(response);  
+});  
   console.log(`${active ? 'active' : 'non-active'}`);
 }
 
@@ -71,6 +74,7 @@ chrome.runtime.onInstalled.addListener(async () => {
   });
 
   chrome.contextMenus.onClicked.addListener(genericOnClick);
+
 
 });
 

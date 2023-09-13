@@ -12,6 +12,7 @@
     let contDurationOffset = 2;
     let contInterval = interval * 4;
     let xOffset = 10 * (contDistOffset / 3) / contDurationOffset * contInterval / 33;   // fix the moving distance difference when move down/up
+    let active = true;
     
     function scrollByDistance(x, y, duration) {
 
@@ -45,6 +46,7 @@
     }
 
     function scrollByKey(e, distance, duration, shiftKey) {
+        if(!active) return;
         let shiftBonus = shiftKey ? 2 : 1
         switch (e.key.toLowerCase()) {
             case 'j': case 's':  // scroll page to bottom by distance
@@ -115,13 +117,21 @@
     window.addEventListener('keyup', (e) => { keyupListener(e) })
 
     setInterval(() => {
-        if (!isInputArea(document.activeElement.tagName) && activeMode == 1) {
+        if (active && !isInputArea(document.activeElement.tagName) && activeMode == 1) {
             for (let [key, value] of Object.entries(pressedKeys)) {
                 if (value) scrollByKey(new KeyboardEvent('keydown', { key: key }), scrollDist / contDistOffset, scrollTime / contDurationOffset, pressedKeys['shift']);
             }
         }
     }, contInterval);
-
+    
+    
+    chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {  
+        console.log(message);  
+        console.log(sender);  
+        sendResponse({ content: "來自內容腳本的回覆" });  
+        active = message;
+    });
+    
 })()
 
 
@@ -150,7 +160,8 @@
     230904 v0.9.3   Adjust scrolling related parameters and optimize the scrolling distance offset
     230904 v0.9.4   Adjust continuous mode interval parameters and optimize scrolling smoothness
     230905 v0.9.5   Fix bugs when pressing Shift in continuous mode and rewrite scrollByKey function in content.js
-    230905 v0.9.6   Update popup.html 
+    230905 v0.9.6   Update popup.html
+    230913 v0.9.7   Add active variable in content.js
 
         TODO:
     Github link                  v 230828
@@ -160,6 +171,7 @@
     *active button
     *toggle scroll mode 
     *change greeting text style in console 
+    *pressing space key to slow the scrolling speed
 
         Note:
     git commit --amend -m "commit message" // can amend last commit message
