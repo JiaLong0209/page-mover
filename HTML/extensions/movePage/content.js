@@ -124,7 +124,8 @@
 
     chrome.runtime.onMessage.addListener(chromeOnMessage);
 
-    console.log("hello Movepage");
+    // console.log("hello Movepage");
+    console.log("%c Hello PageMover!", "font-weight: bold; font-size: 20px;color: #a52; text-shadow: 1px 1px 0 rgb(217,31,38), 2px 2px 0px rgb(245,221,8), 3px 3px 0 rgb(2,135,206), 4px 4px 0px rgb(42,21,113); margin: 10px; padding: 5px");
     window.addEventListener('keydown', (e) => { keydownListener(e) });
     window.addEventListener('keyup', (e) => { keyupListener(e) })
 
@@ -170,6 +171,8 @@
 230914 v0.9.8 Fix click 'active page mover' not working, and rename variables
 230914 v0.9.9 Encapsulate extension status related variables into the 'Status' variable
 230914 v0.9.9 Update extension version numbers in manifest.json
+230915 v0.9.9.1 Change greeting text style in console log
+
 
         TODO:
     Github link                  v 230828
