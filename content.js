@@ -174,6 +174,7 @@
 230915 v0.9.9.1 Change greeting text style in console log
 230922 v1.0.0 Split this extension to a separate repository
 230922 v1.0.1 Create LICENSE and README files
+230922 v1.0.2 Update README file and change github link in popup.html
 
         TODO:
     Github link                  v 230828
