@@ -172,7 +172,7 @@
 230914 v0.9.9 Encapsulate extension status related variables into the 'Status' variable
 230914 v0.9.9 Update extension version numbers in manifest.json
 230915 v0.9.9.1 Change greeting text style in console log
-
+230922 v1.0.0 Split this extension to a separate repository
 
         TODO:
     Github link                  v 230828
