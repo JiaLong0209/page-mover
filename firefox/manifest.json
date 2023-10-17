@@ -21,8 +21,7 @@
     },
     "default_popup": "popup.html"
   },
-  "permissions": [ "permissions"
-  ],
+  "permissions": [ "scripting", "tabs", "contextMenus"],
   "icons":{
     "16": "icon.png"
   },
@@ -30,6 +29,20 @@
   "browser_specific_settings": {
     "gecko": {
       "id": "smt02091395@gmail.com"
+    }
+  },
+  "commands": {
+    "activePageMoverCommand": {
+      "suggested_key": {
+        "default": "Alt+Q"
+      },
+      "description": "Active Page Mover"
+    },
+    "newTabCommand": {
+      "suggested_key": {
+        "default": "Alt+N"
+      },
+      "description": "Create a new tab"
     }
   }
   
