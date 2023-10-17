@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Page Mover for Firefox",
+  "name": "Page Mover",
   "description": "This extension can move pages by hotkeys, such as pressing 'w' or 'k' to move pages up and 's' or 'j' to  move pages down.",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "content_scripts": [
     {
       "matches": [
@@ -21,10 +21,16 @@
     },
     "default_popup": "popup.html"
   },
-  "permissions": [
-    "tabs", "contextMenus"
+  "permissions": [ "permissions"
   ],
   "icons":{
     "16": "icon.png"
+  },
+  "scripts":["event.js"],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "smt02091395@gmail.com"
+    }
   }
+  
 }

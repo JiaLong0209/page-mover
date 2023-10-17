@@ -1,4 +1,3 @@
-allow 
 (function () {
 
     let scrollTime = 250;
