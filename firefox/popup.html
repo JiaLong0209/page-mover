@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Move page by key</title>
+    <style>
+        *{
+            user-select: none;
+            text-decoration: none;
+            margin: 0;
+            padding: 0;
+            list-style-type: none;
+            font-size: 1.03rem;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+        body{
+            background: rgb(16, 18, 29);
+            width: 18rem;
+        }
+        .container{
+            margin: 10px;
+            padding: 10px;
+            text-align: center;
+            border-radius: 10px;
+            background: #4e2626;
+        }
+        span{
+            color: #aaa;
+            margin: 10px;
+        }
+        li{
+            color: rgb(204, 152, 117);
+        }
+        h1{
+            margin: 5px;
+            font-size: 1.5rem;
+            color: rgb(151, 149, 158);
+        }
+        h2{
+            font-size: 1rem;
+            color: #db8570;
+        }
+        hr{
+            text-align: center;
+            margin: auto;
+            margin: 10px;
+            width: 90%;
+            border: 2px dashed rgb(147, 150, 110);
+            border-radius: 10px;
+        }
+        a{
+            display: inline-block;
+            transition: 0.3s;
+            border-radius: 30px;
+            color: rgb(180, 180, 180);
+            background: #270404;
+            width: 70%;
+            font-weight: bolder;
+            padding: 5px;
+        }
+        a:hover{
+            background: #c08989;
+            color: rgb(39, 34, 34);
+        }
+        ul{
+            margin:20px 0px;
+        }
+        
+    </style>
+</head>
+<body>
+    <!-- <script src="./popup.js"></script> -->
+    <div class="container">
+        <h1>Hotkeys</h1>
+        <ul>
+            <li><h2>Pressing the Shift key to double the scrolling speed</h2></li>
+            <hr>
+            <li><span>k =</span>up</li>
+            <li><span>w =</span>up</li>
+            <li><span>i =</span>up (small)</li>
+            <li><span>j =</span>down</li>
+            <li><span>s =</span>down</li>
+            <li><span>m =</span>down (small)</li>
+            <hr>
+            <li><span>g =</span>go to top</li>
+            <li><span>g+shift =</span>go to bottom</li>
+            <li><span>m+shift =</span>go to middle</li>   
+        </ul>
+        <a id='github'href="https://github.com/JiaLong0209/page-mover">Github</a>
+    </div>
+    <script src="popup.js"></script>
+</body>
+</html>
