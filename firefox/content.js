@@ -1,15 +1,14 @@
 (function () {
 
     let scrollTime = 250;
-    let scrollDist = 150;
-    let interval = 1000 / 120; // 120 FPS
+    let scrollDist = 200;
+    let interval = 1000 / 120; 
     let minSpeed = 0, maxSpeed = 2;
     let power = 1.2;
     let pressedKeys = {}
     let contDistOffset = 6;
     let contDurationOffset = 2;
     let contInterval = interval * 4;
-    let xOffset = 10 * (contDistOffset / 3) / contDurationOffset * contInterval / 33;   // fix the moving distance difference when move down/up
 
     let Status = {
         active: true,
@@ -18,7 +17,7 @@
     }
 
     function scrollByDistance(x, y, duration) {
-
+        let offsety = -0;
         let step = 0;
         let totalSteps = Math.round(duration / interval);
         let midSteps = (totalSteps / 2);
@@ -53,7 +52,7 @@
         let shiftBonus = shiftKey ? 2 : 1
         switch (e.key.toLowerCase()) {
             case 'j': case 's':  // scroll page to bottom by distance
-                scrollByDistance(0, distance * shiftBonus + xOffset, duration)
+                scrollByDistance(0, distance * shiftBonus, duration)
                 break;
 
             case 'k': case 'w':  // scroll page to top by distance
@@ -69,15 +68,14 @@
                 break;
 
             case 'i':
-                scrollByDistance(0, -distance * shiftBonus / 4, duration);
+                scrollByDistance(0, -distance * shiftBonus / 2, duration);
                 break;
 
             case 'm':
-                shiftKey ?
                     // scroll to middle of webpage, shiftKey
-                    scrollByDistance(0, (document.body.scrollHeight / 2 - window.scrollY - window.screen.height / 2), duration * 3) :
+                    // scrollByDistance(0, (document.body.scrollHeight / 2 - window.scrollY - window.screen.height / 2), duration * 3) :
                     // scroll page down with small distance
-                    scrollByDistance(0, distance * shiftBonus / 4 + xOffset, duration);
+                scrollByDistance(0, distance * shiftBonus / 2, duration);
                 break;
 
             case 'g':
