@@ -15,7 +15,7 @@
   ],
   "action": {
     "default_icon": {
-      "16": "icon.png",
+      "32": "icon.png",
       "48": "icon.png",
       "128": "icon.png"
     },
@@ -23,7 +23,7 @@
   },
   "permissions": [ "scripting", "tabs", "contextMenus"],
   "icons":{
-    "16": "icon.png"
+    "32": "icon.png"
   },
   "scripts":["event.js"],
   "browser_specific_settings": {
