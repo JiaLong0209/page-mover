@@ -1,5 +1,5 @@
 # page-mover
-This is a browser extension that can move pages by hotkeys, like vim (h, j, k, l) or a gamer (w, a, s, d) etc.
+This is a browser extension that can move pages by keyboard shortcuts, like vim (h, j, k, l) or a gamer (w, a, s, d) etc.
 
 ## Hotkeys:
 * h, j ,k ,l and a, s, w, d = left, up, down, right
